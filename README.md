@@ -1,6 +1,6 @@
 # Dengue Surveillance & Early Warning Dashboard
 
-[![Launch Live Dashboard](https://img.shields.io/badge/Launch-Live%20Dashboard-brightgreen)](YOUR_STREAMLIT_APP_URL)
+[![Launch Live Dashboard](https://img.shields.io/badge/Launch-Live%20Dashboard-brightgreen)](https://dengue-surveillance-early-warning-f2dgvxqdkvw35ssdoyrni7.streamlit.app/)
 
 A Streamlit-based GIS and machine-learning dashboard for **locality-level dengue surveillance, environmental monitoring, and one-week-ahead forecasting**.
 
