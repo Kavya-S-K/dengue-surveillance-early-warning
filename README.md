@@ -6,8 +6,7 @@ A Streamlit-based GIS and machine-learning dashboard for **locality-level dengue
 
 The application combines dengue surveillance information with environmental observations to prepare a weekly modelling dataset, generate a Random Forest forecast, classify relative risk across the modelled localities, and present the results through an interactive GIS dashboard.
 
-> **Current study configuration:** The application has been configured and tested using selected localities in **Nemom Block, Thiruvananthapuram, Kerala**. The study-area configuration is kept in the application and data-processing workflow rather than being used as the main application/site title.
-
+> The current implementation has been configured and tested using selected localities in **Nemom Block, Thiruvananthapuram, Kerala**.
 ---
 
 ## 1. Main capabilities
@@ -55,7 +54,7 @@ Karode
 Vellayani
 ```
 
-These localities represent the current study configuration used for the dengue surveillance and forecasting workflow.
+These localities represent the current study-area configuration used by the dengue surveillance and forecasting workflow.
 
 The dashboard itself is intentionally given a **general application title** so that the interface can be reused or extended to another study area without changing the main identity of the application.
 
@@ -88,7 +87,7 @@ The application extracts:
 - Configured study-area locality mentions
 - Explicit locality-specific case counts when they are printed in the report
 
-When a locality is listed without an explicit locality-specific number, the application treats it as one reported locality event.
+When a configured locality is listed without an explicit locality-specific case count, the application treats the occurrence as one reported locality event.
 
 The application can also accept compatible `.csv`/`.txt` health inputs, but the intended source workflow is based on the original IDSP daily reports.
 
@@ -222,6 +221,8 @@ with the following general feature groups:
 - Environmental lag variables
 - Seasonal week-of-year sine/cosine features
 
+The model uses the current-week dengue value together with dengue lags, environmental variables and their lags, and week-of-year seasonality features to estimate the following week's locality-level dengue cases.
+
 Missing feature values are handled through median imputation with missing-value indicators.
 
 ---
@@ -241,7 +242,7 @@ These classes are calculated from quartiles of the **unrounded predicted case co
 
 Therefore:
 
-- `Very High` means the locality falls within the highest prediction quartile.
+- `Very High` means the locality falls within the highest quartile of the modelled predicted case counts for the selected forecast week.
 - It does **not** represent a clinical probability.
 - It does **not** guarantee that a particular number of cases will occur.
 - The prediction is a model estimate and should be interpreted together with the surveillance and validation information.
@@ -342,6 +343,8 @@ Reported metrics include:
 - **RMSE** — Root Mean Squared Error
 - **R²** — coefficient of determination
 
+A negative R² can occur when the model performs worse than a simple mean-based reference over the validation period.
+
 These metrics are calculated from the uploaded dataset and therefore change when the underlying data change.
 
 ---
@@ -368,21 +371,7 @@ This contains the locality-level forecast output, including predicted cases, rel
 
 ---
 
-## 9. GIS boundary coverage
-
-The current reference GeoJSON contains polygon geometry for **7 of the 10 configured modelling localities**.
-
-Before using the complete 10-locality polygon map operationally, official polygon geometry should be added for:
-
-- Peringamala
-- Karode
-- Vellayani
-
-The forecasting and locality-level outputs can still be generated, but map polygon display is dependent on the available reference geometry.
-
----
-
-## 10. Running the application
+## 9. Running the application
 
 ### Requirements
 
@@ -421,16 +410,23 @@ streamlit run app.py
 
 The application will normally open at the local Streamlit address shown in the terminal.
 
+
+> **Running the deployed application**.
+>
+> A deployed version of the dashboard is available through the **Launch Live Dashboard** link at the top of this README.
+The deployed application is hosted separately from the GitHub repository. GitHub contains the source code, documentation and supporting project files, while the deployed Streamlit application provides the interactive web interface.
+
 ---
 
-## 11. Demonstration / test package
+## 10. Demonstration / test data
 
 A **demonstration package** is provided with this project so that the dashboard can be opened and tested without first collecting the complete original surveillance dataset.
 
 ### Demonstration package
 
 ```text
-dengue_surveillance_forecast_demo.zip
+[dengue_surveillance_forecast_demo.zip](https://github.com/user-attachments/files/34063112/dengue_surveillance_forecast_demo.zip)
+
 ```
 
 The package contains:
@@ -457,9 +453,9 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Then, in the dashboard:
+When running the application locally:
 
-1. Open the application.
+1. Start the application using `streamlit run app.py`.
 2. In the sidebar, enable **Use bundled demonstration dataset (for testing only)**.
 3. Review the **Data coverage & readiness** section.
 4. Select a forecast baseline week.
@@ -475,33 +471,7 @@ For real analysis, use the original IDSP, IoT and IMD source files described abo
 
 ---
 
-## 12. Recommended project structure
-
-For the normal application:
-
-```text
-project/
-├── app.py
-├── requirements.txt
-├── nemom_dashboard_geojson.json
-├── README.md
-└── [source data uploaded through the dashboard]
-```
-
-For the demonstration package:
-
-```text
-dengue_surveillance_forecast_demo/
-├── app.py
-├── requirements.txt
-├── NEMOM_DENGUE_ML_MASTER.csv
-├── nemom_dashboard_geojson.json
-└── DEMO_README.txt
-```
-
----
-
-## 13. Important interpretation notes
+## 11. Important interpretation notes
 
 - The health target represents **reported IDSP locality events**, not an independent estimate of all infections.
 - Missing daily IDSP reports are not silently treated as zero-report days; reporting coverage is tracked separately.
