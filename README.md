@@ -1,10 +1,15 @@
 # Dengue Surveillance & Early Warning Dashboard
 
-[![Launch Live Dashboard](https://img.shields.io/badge/Launch-Live%20Dashboard-brightgreen)](https://dengue-surveillance-early-warning-f2dgvxqdkvw35ssdoyrni7.streamlit.app/)
-
 A Streamlit-based GIS and machine-learning dashboard for **locality-level dengue surveillance, environmental monitoring, and one-week-ahead forecasting**.
-
 The application combines dengue surveillance information with environmental observations to prepare a weekly modelling dataset, generate a Random Forest forecast, classify relative risk across the modelled localities, and present the results through an interactive GIS dashboard.
+
+<p align="center">
+
+<a href="https://dengue-surveillance-early-warning-f2dgvxqdkvw35ssdoyrni7.streamlit.app/">
+  <img src="https://img.shields.io/badge/🚀%20Launch%20Live%20Dashboard-FF4B4B?style=for-the-badge" alt="Launch Live Dashboard">
+</a>
+
+</p>
 
 > The current implementation has been configured and tested using selected localities in **Nemom Block, Thiruvananthapuram, Kerala**.
 ---
